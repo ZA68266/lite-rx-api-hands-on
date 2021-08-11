@@ -51,7 +51,10 @@ public class Part03StepVerifier {
 	// TODO Use StepVerifier to check that the flux parameter emits a User with "swhite"username
 	// and another one with "jpinkman" then completes successfully.
 	void expectSkylerJesseComplete(Flux<User> flux) {
-
+		StepVerifier.create(flux)
+				.assertNext(user -> user.getUsername().equals("swhite"))
+				.assertNext(user -> Assertions.assertThat(user.getUsername()).isEqualTo("jpinkman"))
+				.verifyComplete();
 	}
 
 //========================================================================================
