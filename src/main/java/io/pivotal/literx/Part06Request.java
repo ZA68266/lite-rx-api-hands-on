@@ -33,21 +33,30 @@ public class Part06Request {
 
 	// TODO Create a StepVerifier that initially requests 1 value and expects User.SKYLER then requests another value and expects User.JESSE then stops verifying by cancelling the source
 	StepVerifier requestOneExpectSkylerThenRequestOneExpectJesse(Flux<User> flux) {
-		return null;
+		return StepVerifier
+				.create(flux)
+				.expectSubscription()
+				.expectNext(User.SKYLER)
+				.expectNext(User.JESSE)
+				.thenCancel();
 	}
 
 //========================================================================================
 
 	// TODO Return a Flux with all users stored in the repository that prints automatically logs for all Reactive Streams signals
 	Flux<User> fluxWithLog() {
-		return null;
+		return repository.findAll().log();
 	}
 
 //========================================================================================
 
 	// TODO Return a Flux with all users stored in the repository that prints "Starring:" on subscribe, "firstname lastname" for all values and "The end!" on complete
 	Flux<User> fluxWithDoOnPrintln() {
-		return null;
+		return repository
+				.findAll()
+				.doOnSubscribe(subscription -> System.out.println("Starring:"))
+				.doOnNext(user -> System.out.println(user.getFirstname() + " " + user.getLastname()))
+				.doOnComplete(() -> System.out.println("The end!"));
 	}
 
 
