@@ -5,6 +5,9 @@ import io.pivotal.literx.repository.ReactiveRepository;
 import io.pivotal.literx.repository.ReactiveUserRepository;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
+import reactor.test.StepVerifierOptions;
+
+import java.time.Duration;
 
 /**
  * Learn how to control the demand.
@@ -19,7 +22,11 @@ public class Part06Request {
 
 	// TODO Create a StepVerifier that initially requests all values and expect 4 values to be received
 	StepVerifier requestAllExpectFour(Flux<User> flux) {
-		return null;
+		return StepVerifier
+				.create(flux)
+				.expectSubscription()
+				.expectNextCount(4L)
+				.expectComplete();
 	}
 
 //========================================================================================
@@ -42,5 +49,8 @@ public class Part06Request {
 	Flux<User> fluxWithDoOnPrintln() {
 		return null;
 	}
+
+
+
 
 }
